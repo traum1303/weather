@@ -1,0 +1,252 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Weather API",
+        "description": "Authentication endpoint description",
+        "contact": {
+            "email": ""
+        },
+        "license": {
+            "name": "",
+            "url": ""
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/auth": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Authenticate a new user and return (mb create) user token- with oneOf examples",
+                "operationId": "a303d65cb978a42c9a61aef5320cd5e4",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "ability": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "email": "test@test.com",
+                                    "password": "password",
+                                    "ability": "GET_TEMPERATURE"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/AuthSucceeded"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/AuthFailed"
+                                        }
+                                    ]
+                                },
+                                "examples": {
+                                    "AuthSucceeded": {
+                                        "summary": "An result token.",
+                                        "value": {
+                                            "access_token": "ey76Fdt5pRsOMoJ27f7AOiEjj66HYEZB"
+                                        }
+                                    },
+                                    "AuthFailed": {
+                                        "summary": "Login failed",
+                                        "value": {
+                                            "message": "Invalid Credentials"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/temperature?day={day}": {
+            "get": {
+                "tags": [
+                    "Temperature"
+                ],
+                "summary": "Show Temperature by given day",
+                "operationId": "show",
+                "parameters": [
+                    {
+                        "name": "day",
+                        "in": "query",
+                        "description": "Requested Day",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/Temperature"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/Message"
+                                        }
+                                    ]
+                                },
+                                "examples": {
+                                    "Temperature": {
+                                        "summary": "Temperature",
+                                        "value": {
+                                            "data": [
+                                                {
+                                                    "id": 14,
+                                                    "temperature": "20.83",
+                                                    "time": "2024-06-10 00:00:21"
+                                                },
+                                                {
+                                                    "id": 15,
+                                                    "temperature": "18.43",
+                                                    "time": "2024-06-10 00:01:14"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "Message": {
+                                        "summary": "Login failed",
+                                        "value": {
+                                            "message": "Bad credentials"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Message": {
+                "title": "Message Schema",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Token": {
+                "title": "Token Schema",
+                "properties": {
+                    "data": {
+                        "properties": {
+                            "token": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthSucceeded": {
+                "title": "Sample schema for using references",
+                "properties": {
+                    "data": {
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            },
+            "AuthFailed": {
+                "title": "Sample schema for using references",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Temperature": {
+                "title": "Temperature Schema",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer"
+                                },
+                                "temperature": {
+                                    "type": "string"
+                                },
+                                "time": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "bearerAuth",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Everything about Authentication",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": ""
+            }
+        },
+        {
+            "name": "Temperature",
+            "description": "",
+            "externalDocs": {
+                "description": "",
+                "url": ""
+            }
+        }
+    ],
+    "externalDocs": {
+        "description": "Find out more about Swagger and OpenApi",
+        "url": "https://swagger.io"
+    }
+}

@@ -40,7 +40,6 @@ class City extends Model
         'updated_at' => 'datetime',
     ];
 
-
     public function temperatures(): HasMany
     {
         return $this->hasMany(Temperature::class, 'city_id', 'id');
