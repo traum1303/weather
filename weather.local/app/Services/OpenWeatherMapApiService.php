@@ -10,7 +10,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class OpenWeatherMapApiService implements WeatherApiInterface
 {
-
+    /**
+     * @param array $requestData
+     * @return array
+     * @throws Exception
+     */
     public static function getWeather(array $requestData): array
     {
         $config = config('services.open_weather_map');
