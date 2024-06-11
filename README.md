@@ -54,6 +54,6 @@ docker exec weather-workspace-1 bash -c "cd weather.local && chmod 777 ./storage
 ```bash
 docker-compose -f laradock/docker-compose-dev.yml stop
 ```
-## in order to set up cron job please add the command "* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1" to the "crontab -e"
+## in order to set up cron job please add the command "* * * * * cd /var/www/weather.local && php artisan schedule:run >> /dev/null 2>&1" to the "crontab -e"
 
 #### swagger url - http://weather.local/api/documentation
