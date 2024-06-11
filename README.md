@@ -16,7 +16,7 @@ docker system prune
 
 ####  Stop the services which use :80, :443, :3306 ports, because these ports will be required to run docker containers
 ```bash
-sudo service mysql stop && sudo service apache2 stop && sudo service nginx stop
+sudo service mariadb stop && sudo service apache2 stop && sudo service nginx stop
 ```
 
 ### copy db & config files
